@@ -1,72 +1,22 @@
-# 🖤 Sin & Seduction — Omni Edition
+# Sin & Seduction
 
-Núcleo de servidor MMORPG oscuro, escrito en Kotlin sobre Ktor. El repositorio reúne combate, seducción, corrupción, traición, clanes de sangre, eventos globales, WebSockets y persistencia PostgreSQL.
+Código Kotlin/Ktor extraído del archivo ZIP original, conservado en el repositorio.
 
-## Estado
+## Estado real
 
-> Prototipo técnico de servidor: la base funcional está lista para evolucionar hacia producción. La persistencia aún debe conectarse a una capa de repositorios y autenticación antes de un despliegue público.
+El proyecto es un núcleo inicial, no un MMORPG completo: los datos del motor se almacenan en memoria; el esquema SQL todavía no está conectado. Los módulos de NPC, clanes y WebSockets no están integrados de extremo a extremo con el servidor. No hay autenticación ni cliente jugable integrado; el observatorio es una visualización interactiva del sistema solar, no un cliente MMORPG. Antes de un despliegue público se requieren pruebas, seguridad y persistencia real.
 
-## Sistemas
+## Compilar y ejecutar
 
-- **Combate y progresión:** infamia, deseo, rutas `NEUTRAL`, `OVERLORD` y `TEMPTRESS`.
-- **Corrupción y traición:** voluntad, vínculos, robo de poder y evolución a `GOD_MODE`.
-- **Clanes de sangre:** creación, miembros, pureza, infamia y usurpación.
-- **IA de NPCs:** personalidades predadoras, seductoras y de infiltración.
-- **Tiempo real:** canal WebSocket `/world` para eventos del mundo.
-- **API HTTP:** `GET /status` y `POST /action`.
-- **Persistencia:** esquema PostgreSQL en `sql/SinAndSeduction_Persistence.sql`.
+Requisitos: JDK 17 y Gradle 8.7.
 
-## Requisitos
-
-- JDK 17+
-- Gradle 8.7+ (el workflow de GitHub Actions lo instala automáticamente)
-- PostgreSQL 14+ para la persistencia
-
-## Ejecutar
-
-```bash
-gradle --no-daemon :app:run
+```sh
+gradle build
+gradle :app:run
 ```
 
-El servidor escucha en el puerto `8080`. Para construirlo:
+La API escucha en el puerto 8080. La compilación en GitHub Actions se realiza en cada push y pull request. Su resultado debe comprobarse antes de considerar funcional la aplicación.
 
-```bash
-gradle --no-daemon build
-```
+## Observatorio 3D
 
-Para ejecutar la simulación local del mundo:
-
-```bash
-gradle --no-daemon :app:run --args='--simulation'
-```
-
-## Docker
-
-```bash
-docker build -t sin-and-seduction .
-docker run --rm -p 8080:8080 sin-and-seduction
-```
-
-## API rápida
-
-`GET /status` devuelve los jugadores activos.
-
-`POST /action` acepta:
-
-```json
-{"attackerId":"UUID", "targetId":"UUID", "actionType":"ATTACK"}
-```
-
-Acciones disponibles: `ATTACK` y `SEDUCE`.
-
-## CI
-
-Cada push y pull request hacia `main` o `master` ejecuta compilación y pruebas mediante GitHub Actions.
-
-## Licencia
-
-Proyecto de ShacktarMalacky. Define una licencia antes de aceptar contribuciones externas.
-
-## Observatorio 3D integrado
-
-El sistema solar se sirve desde `app/src/main/resources/static/index.html` en la ruta raíz (`/`) del mismo servidor que expone la API. La interfaz consulta `/api/world` cada cinco segundos y muestra el estado vivo del motor. Requiere Internet para descargar Three.js desde CDN. La ruta `/status` se mantiene para clientes anteriores.
+Al arrancar el servidor, la página principal sirve la visualización 3D. La interfaz consulta `/api/world` cada cinco segundos y muestra el estado en memoria; requiere conexión a Internet para cargar Three.js. Las distancias y velocidades de las órbitas son escalas visuales, no datos astronómicos precisos.

@@ -28,6 +28,14 @@ class SinServerTest {
     }
 
     @Test
+    fun observatoryIsServedAtRoot() = testApplication {
+        application { module(SinEngine()) }
+        val response = client.get("/")
+        assertEquals(HttpStatusCode.OK, response.status)
+        assertTrue(response.bodyAsText().contains("Sistema Solar"))
+    }
+
+    @Test
     fun invalidActionIdsReturnBadRequest() = testApplication {
         application { module(SinEngine()) }
         val response = client.post("/action") {
