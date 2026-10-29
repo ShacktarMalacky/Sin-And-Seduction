@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sin & Seduction · Sistema Solar</title>
+<style>
+:root{color-scheme:dark;--accent:#b96cff;--cyan:#54d9ff}*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#03030a;color:#eee;font:14px system-ui,-apple-system,Segoe UI,sans-serif}#space{position:fixed;inset:0}#hud{position:fixed;inset:0;pointer-events:none;padding:18px;display:flex;justify-content:space-between;align-items:flex-start;background:radial-gradient(ellipse at center,transparent 35%,#0008 100%)}.panel{pointer-events:auto;width:min(310px,calc(100vw - 36px));padding:16px;border:1px solid #ffffff20;border-radius:14px;background:#090914cc;backdrop-filter:blur(12px);box-shadow:0 8px 40px #0008}.brand{letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700;font-size:12px}.title{font-size:25px;margin:4px 0 14px}.row{display:flex;gap:8px;align-items:center;margin:10px 0}.row label{min-width:74px;color:#aaa}.value{color:var(--cyan);font-variant-numeric:tabular-nums}.btn{border:1px solid #ffffff2b;background:#171525;color:#fff;border-radius:8px;padding:8px 12px;cursor:pointer}.btn:hover,.btn.active{border-color:var(--accent);background:#291c3c}.range{width:100%;accent-color:var(--accent)}#info{align-self:flex-end;max-height:45vh;overflow:auto}#info h2{margin:0 0 4px;color:var(--cyan)}#info p{color:#bbb;line-height:1.45;margin:8px 0 0}.hint{color:#777;font-size:12px;margin-top:14px}.legend{display:flex;gap:10px;flex-wrap:wrap;color:#aaa;font-size:12px}.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}.label{position:absolute;color:#ddd;font-size:11px;text-shadow:0 1px 4px #000;white-space:nowrap;transform:translate(-50%,-50%);pointer-events:none;opacity:.9}.label b{color:#fff}.error{padding:20px;color:#ff8caa}
+</style>
+</head>
+<body>
+<div id="space"></div>
+<div id="hud">
+<section class="panel">
+ <div class="brand">SIN & SEDUCTION · OBSERVATORIO</div><div class="title">Sistema Solar</div>
+ <div class="row"><button id="pause" class="btn">⏸ Pausar</button><button id="reset" class="btn">◎ Restablecer cámara</button></div>
+ <div class="row"><label for="speed">Velocidad</label><input id="speed" class="range" type="range" min="0" max="8" step="0.1" value="1"><span id="speedValue" class="value">1.0×</span></div>
+ <div class="row"><label for="trails">Estelas</label><input id="trails" type="checkbox" checked><label for="labels">Etiquetas</label><input id="labels" type="checkbox" checked></div>
+ <div class="legend"><span><i class="dot" style="background:#ffbd48"></i>estrella</span><span><i class="dot" style="background:var(--accent)"></i>órbita</span><span>clic: enfocar</span></div>
+ <div class="hint">Arrastra para orbitar · rueda para zoom · clic en un planeta para inspeccionar</div><div id="server-state" class="hint">Conectando con el servidor…</div>
+</section>
+<section id="info" class="panel"><h2>Elige un planeta</h2><p>Haz clic sobre un cuerpo celeste para enfocar la cámara y ver sus datos.</p></section>
+</div>
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161/build/three.module.js';
+import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.161/examples/jsm/controls/OrbitControls.js';
+
+const root=document.querySelector('#space'), info=document.querySelector('#info');
+const scene=new THREE.Scene(); scene.fog=new THREE.FogExp2(0x03030a,.0018);
+const camera=new THREE.PerspectiveCamera(52,innerWidth/innerHeight,.1,3000); camera.position.set(0,55,105);
+const renderer=new THREE.WebGLRenderer({antialias:true}); renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.setSize(innerWidth,innerHeight); renderer.outputColorSpace=THREE.SRGBColorSpace; root.append(renderer.domElement);
+const controls=new OrbitControls(camera,renderer.domElement); controls.enableDamping=true; controls.dampingFactor=.055; controls.minDistance=5; controls.maxDistance=280;
+scene.add(new THREE.AmbientLight(0x5d4b86,.18)); const sunLight=new THREE.PointLight(0xffd38a,3.5,500); scene.add(sunLight);
+const world=new THREE.Group(); scene.add(world); const objects=[], clickable=[], orbitLines=[]; let paused=false, speed=1, focus=null;
+const data=[
+ ['Mercurio',3.2,.9,.035,0xb7a58e,'Rocoso y veloz. Su año dura apenas 88 días.'],['Venus',5.2,1.4,.025,0xd99c62,'Mundo de nubes densas y atmósfera extrema.'],['Tierra',7.4,1.7,.02,0x4b9cff,'Hogar azul; su luna se muestra en órbita cercana.'],['Marte',9.8,1.3,.016,0xc95f4d,'El planeta rojo, marcado por polvo y antiguos cráteres.'],['Júpiter',14,3.8,.009,0xd8ae83,'Gigante gaseoso con tormentas monumentales.'],['Saturno',19,3.1,.007,0xe4c98d,'Gigante anillado, elegante y frío.'],['Urano',24,2.2,.005,0x71d2d4,'Gigante de hielo con una inclinación radical.'],['Neptuno',29,2.1,.004,0x456ce1,'El mundo azul en el borde del sistema.']
+];
+function stars(){const geo=new THREE.BufferGeometry(), pts=[]; for(let i=0;i<2600;i++){const r=500*Math.cbrt(Math.random()), a=Math.random()*Math.PI*2, z=(Math.random()-.5)*260; pts.push(Math.cos(a)*r,z,Math.sin(a)*r)} geo.setAttribute('position',new THREE.Float32BufferAttribute(pts,3)); const mat=new THREE.PointsMaterial({color:0x9b9bd1,size:.55,sizeAttenuation:true}); scene.add(new THREE.Points(geo,mat))} stars();
+const sun=new THREE.Mesh(new THREE.SphereGeometry(5,48,32),new THREE.MeshBasicMaterial({color:0xffae32})); world.add(sun); const glow=new THREE.Mesh(new THREE.SphereGeometry(6.5,32,16),new THREE.MeshBasicMaterial({color:0xff6c29,transparent:true,opacity:.12,side:THREE.BackSide})); world.add(glow);
+function orbit(radius){const pts=[];for(let i=0;i<=128;i++){const a=i/128*Math.PI*2;pts.push(new THREE.Vector3(Math.cos(a)*radius,0,Math.sin(a)*radius))}const g=new THREE.BufferGeometry().setFromPoints(pts),m=new THREE.LineBasicMaterial({color:0x9a5cff,transparent:true,opacity:.28});return new THREE.LineLoop(g,m)}
+function label(name){const e=document.createElement('div');e.className='label';e.innerHTML='<b>'+name+'</b>';root.append(e);return e}
+data.forEach(([name,r,size,rate,color,desc],i)=>{const pivot=new THREE.Group(); world.add(pivot); const orb=orbit(r);world.add(orb);orbitLines.push(orb); const mesh=new THREE.Mesh(new THREE.SphereGeometry(size,24,16),new THREE.MeshStandardMaterial({color,roughness:.8,emissive:color,emissiveIntensity:.035}));mesh.position.x=r;pivot.add(mesh); const l=label(name); const item={name,r,size,rate,color,desc,pivot,mesh,label:l,angle:i*.93};objects.push(item);clickable.push(mesh); if(name==='Tierra'){const moonPivot=new THREE.Group();mesh.add(moonPivot);const moon=new THREE.Mesh(new THREE.SphereGeometry(.45,16,10),new THREE.MeshStandardMaterial({color:0xb7becb}));moon.position.x=2.4;moonPivot.add(moon);item.moon=moonPivot}});
+function select(item){focus=item;info.innerHTML='<h2>'+item.name+'</h2><p>'+item.desc+'</p><p><span class="value">Órbita:</span> '+item.r.toFixed(1)+' UA · <span class="value">velocidad:</span> '+(item.rate*100).toFixed(1)+'% base</p>';}
+const ray=new THREE.Raycaster(), mouse=new THREE.Vector2();renderer.domElement.addEventListener('pointerdown',e=>{mouse.x=e.clientX/innerWidth*2-1;mouse.y=-(e.clientY/innerHeight)*2+1;ray.setFromCamera(mouse,camera);const hit=ray.intersectObjects(clickable)[0];if(hit){const item=objects.find(o=>o.mesh===hit.object);select(item);controls.target.copy(item.mesh.getWorldPosition(new THREE.Vector3()));}});
+function project(item){const p=item.mesh.getWorldPosition(new THREE.Vector3()).project(camera);item.label.style.left=((p.x+1)/2*innerWidth)+'px';item.label.style.top=((-p.y+1)/2*innerHeight)+'px';item.label.style.display=p.z<1&&document.querySelector('#labels').checked?'block':'none'}
+document.querySelector('#trails').onchange=e=>orbitLines.forEach(line=>line.visible=e.target.checked);document.querySelector('#pause').onclick=()=>{paused=!paused;document.querySelector('#pause').textContent=paused?'▶ Reanudar':'⏸ Pausar'};document.querySelector('#speed').oninput=e=>{speed=+e.target.value;document.querySelector('#speedValue').textContent=speed.toFixed(1)+'×'};document.querySelector('#reset').onclick=()=>{focus=null;camera.position.set(0,55,105);controls.target.set(0,0,0);info.innerHTML='<h2>Elige un planeta</h2><p>Haz clic sobre un cuerpo celeste para enfocar la cámara y ver sus datos.</p>'};
+async function refreshServerState(){const el=document.querySelector('#server-state');try{const response=await fetch('/api/world',{headers:{'Accept':'application/json'}});if(!response.ok)throw new Error('HTTP '+response.status);const state=await response.json();el.textContent='SERVIDOR EN VIVO · '+state.playerCount+' jugadores · '+state.players.map(p=>p.name+' ('+p.path+')').join(' · ')}catch(error){el.textContent='SERVIDOR SIN CONEXIÓN · '+error.message}}refreshServerState();setInterval(refreshServerState,5000);
+let last=performance.now();function animate(now){requestAnimationFrame(animate);const dt=Math.min((now-last)/1000,.05);last=now;if(!paused){sun.rotation.y+=dt*.12;objects.forEach(o=>{o.angle+=dt*o.rate*speed;o.pivot.rotation.y=o.angle;if(o.moon)o.moon.rotation.y+=dt*speed})}objects.forEach(project);controls.update();renderer.render(scene,camera)} animate(last);
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+</script></body></html>
