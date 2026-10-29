@@ -19,6 +19,7 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
     implementation("ch.qos.logback:logback-classic:1.4.7")
     testImplementation(kotlin("test"))
+    testImplementation("io.ktor:ktor-server-test-host-jvm:2.3.2")
 }
 
 kotlin {
