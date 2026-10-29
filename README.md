@@ -1,22 +1,80 @@
-# Sin & Seduction
+# 🖤 Sin & Seduction — Omni Edition
 
-Código Kotlin/Ktor extraído del archivo ZIP original, conservado en el repositorio.
+Núcleo de servidor MMORPG oscuro, escrito en Kotlin sobre Ktor. El repositorio reúne combate, seducción, corrupción, traición, clanes de sangre, eventos globales, WebSockets y persistencia PostgreSQL.
 
-## Estado real
+## Estado
 
-El proyecto es un núcleo inicial, no un MMORPG completo: los datos del motor se almacenan en memoria; el esquema SQL todavía no está conectado. Los módulos de NPC, clanes y WebSockets no están integrados de extremo a extremo con el servidor. No hay autenticación ni cliente jugable integrado; el observatorio es una visualización interactiva del sistema solar, no un cliente MMORPG. Antes de un despliegue público se requieren pruebas, seguridad y persistencia real.
+> Prototipo técnico de servidor: la base funcional está lista para evolucionar hacia producción. La persistencia aún debe conectarse a una capa de repositorios y autenticación antes de un despliegue público.
 
-## Compilar y ejecutar
+## Sistemas
 
-Requisitos: JDK 17 y Gradle 8.7.
+- **Combate y progresión:** infamia, deseo, rutas `NEUTRAL`, `OVERLORD` y `TEMPTRESS`.
+- **Corrupción y traición:** voluntad, vínculos, robo de poder y evolución a `GOD_MODE`.
+- **Clanes de sangre:** creación, miembros, pureza, infamia y usurpación.
+- **IA de NPCs:** personalidades predadoras, seductoras y de infiltración.
+- **Tiempo real:** canal WebSocket `/world` para eventos del mundo.
+- **API HTTP:** `GET /status` y `POST /action`.
+- **Persistencia:** esquema PostgreSQL en `sql/SinAndSeduction_Persistence.sql`.
 
-```sh
-gradle build
-gradle :app:run
+## Requisitos
+
+- JDK 17+
+- Gradle 8.7+ (el workflow de GitHub Actions lo instala automáticamente)
+- PostgreSQL 14+ para la persistencia
+
+## Ejecutar
+
+```bash
+gradle --no-daemon :app:run
 ```
 
-La API escucha en el puerto 8080. La compilación en GitHub Actions se realiza en cada push y pull request. Su resultado debe comprobarse antes de considerar funcional la aplicación.
+El servidor escucha en el puerto `8080`. Para construirlo:
 
-## Observatorio 3D
+```bash
+gradle --no-daemon build
+```
 
-Al arrancar el servidor, la página principal sirve la visualización 3D. La interfaz consulta `/api/world` cada cinco segundos y muestra el estado en memoria; requiere conexión a Internet para cargar Three.js. Las distancias y velocidades de las órbitas son escalas visuales, no datos astronómicos precisos.
+Para ejecutar la simulación local del mundo:
+
+```bash
+gradle --no-daemon :app:run --args='--simulation'
+```
+
+## Docker
+
+```bash
+docker build -t sin-and-seduction .
+docker run --rm -p 8080:8080 sin-and-seduction
+```
+
+## API rápida
+
+`GET /status` devuelve los jugadores activos.
+
+`POST /action` acepta:
+
+```json
+{"attackerId":"UUID", "targetId":"UUID", "actionType":"ATTACK"}
+```
+
+Acciones disponibles: `ATTACK` y `SEDUCE`.
+
+## CI
+
+Cada push y pull request hacia `main` o `master` ejecuta compilación y pruebas mediante GitHub Actions.
+
+## Licencia
+
+Proyecto de ShacktarMalacky. Define una licencia antes de aceptar contribuciones externas.
+
+## Observatorio 3D integrado
+
+El sistema solar se sirve desde `app/src/main/resources/static/index.html` en la ruta raíz (`/`) del mismo servidor que expone la API. La interfaz consulta `/api/world` cada cinco segundos y muestra el estado vivo del motor. Requiere Internet para descargar Three.js desde CDN. La ruta `/status` se mantiene para clientes anteriores.
+
+## Campaña Conquista Solar
+
+La interfaz web utiliza una escena Three.js con cámara orbital, planetas seleccionables y una nave cuya potencia se desarrolla mediante mejoras. La campaña incluye reconocimiento, infiltración, asalto, corrupción, resistencia planetaria, rutas desbloqueables, energía, integridad de casco, reparaciones, recargas de suministros, créditos, experiencia, mejoras de nave, contraataques, victoria y guardado local por navegador. La campaña es de un solo jugador y el progreso vive en localStorage; no es multijugador persistente. El estado `/api/world` del servidor se muestra cuando Ktor está disponible, pero no sincroniza el guardado de campaña.
+
+Controles: seleccionar planeta, reconocerlo, elegir operaciones, agotar energía y cerrar el ciclo; la velocidad, pausa, órbitas y progreso se guardan localmente.
+
+La versión web actual es una campaña individual que se ejecuta completamente en el navegador: la economía, defensas, ciclos y progreso se guardan en `localStorage`. No sincroniza acciones ni guardado con PostgreSQL y aún no constituye un MMORPG multijugador. Usa Three.js por CDN, por lo que requiere conexión para descargar esa librería.
