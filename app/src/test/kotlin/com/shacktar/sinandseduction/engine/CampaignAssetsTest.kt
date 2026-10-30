@@ -18,6 +18,7 @@ class CampaignAssetsTest {
     @Test
     fun campaignOperationsAndSaveArePresent() {
         val js = File("src/main/resources/static/game.js").readText()
+        val html = File("src/main/resources/static/index.html").readText()
         assertTrue(js.contains("function operation(action)"))
         assertTrue(js.contains("function nextCycle()"))
         assertTrue(js.contains("function capture(p,w)"))
@@ -35,7 +36,6 @@ class CampaignAssetsTest {
         assertTrue(html.contains("HANGAR · SISTEMAS"))
         assertTrue(js.contains("contractClaims"))
         assertTrue(js.contains("sin-seduction-campaign-v3"))
-        val html = File("src/main/resources/static/index.html").readText()
         assertTrue(html.contains("Eclipse Nocturna · Conquista Solar"))
         assertTrue(html.contains("CONTRATOS DE CAMPAÑA"))
     }
