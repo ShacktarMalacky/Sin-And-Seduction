@@ -32,7 +32,7 @@ class SinServerTest {
         application { module(SinEngine()) }
         val response = client.get("/")
         assertEquals(HttpStatusCode.OK, response.status)
-        assertTrue(response.bodyAsText().contains("Sistema Solar"))
+        assertTrue(response.bodyAsText().contains("Conquista Solar"))
     }
 
     @Test
