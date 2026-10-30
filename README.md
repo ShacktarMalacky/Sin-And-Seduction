@@ -1,4 +1,4 @@
-# 🖤 Sin & Seduction — Omni Edition
+# 🌘 Eclipse Nocturna — Conquista Solar
 
 Núcleo de servidor MMORPG oscuro, escrito en Kotlin sobre Ktor. El repositorio reúne combate, seducción, corrupción, traición, clanes de sangre, eventos globales, WebSockets y persistencia PostgreSQL.
 
@@ -71,9 +71,9 @@ Proyecto de ShacktarMalacky. Define una licencia antes de aceptar contribuciones
 
 El sistema solar se sirve desde `app/src/main/resources/static/index.html` en la ruta raíz (`/`) del mismo servidor que expone la API. La interfaz consulta `/api/world` cada cinco segundos y muestra el estado vivo del motor. Requiere Internet para descargar Three.js desde CDN. La ruta `/status` se mantiene para clientes anteriores.
 
-## Campaña Conquista Solar
+## Eclipse Nocturna · Campaña Conquista Solar
 
-La interfaz web utiliza una escena Three.js con cámara orbital, planetas seleccionables y una nave cuya potencia se desarrolla mediante mejoras. La campaña incluye reconocimiento, infiltración, asalto, corrupción, resistencia planetaria, rutas desbloqueables, energía, integridad de casco, reparaciones, recargas de suministros, créditos, experiencia, mejoras de nave, contraataques, victoria y guardado local por navegador. La campaña es de un solo jugador y el progreso vive en localStorage; no es multijugador persistente. El estado `/api/world` del servidor se muestra cuando Ktor está disponible, pero no sincroniza el guardado de campaña.
+Eclipse Nocturna es el título visible de esta experiencia web. La interfaz utiliza una escena Three.js con cámara orbital, planetas seleccionables y una nave cuya potencia se desarrolla mediante mejoras. La campaña incluye reconocimiento, infiltración, asalto, corrupción, resistencia planetaria, rutas desbloqueables, energía, integridad de casco, reparaciones, recargas de suministros, créditos, experiencia, mejoras de nave, contraataques, victoria, contratos secundarios con recompensas y guardado local por navegador. La campaña es de un solo jugador y el progreso vive en localStorage; no es multijugador persistente. El estado `/api/world` del servidor se muestra cuando Ktor está disponible, pero no sincroniza el guardado de campaña.
 
 Controles: seleccionar planeta, reconocerlo, elegir operaciones, agotar energía y cerrar el ciclo; la velocidad, pausa, órbitas y progreso se guardan localmente.
 

@@ -23,6 +23,13 @@ class CampaignAssetsTest {
         assertTrue(js.contains("function capture(p,w)"))
         assertTrue(js.contains("localStorage.setItem(SAVE_KEY"))
         assertTrue(js.contains("function repairShip()"))
+        assertTrue(js.contains("function renderContracts()"))
+        assertTrue(js.contains("function updateContracts()"))
+        assertTrue(js.contains("contractClaims"))
+        assertTrue(js.contains("sin-seduction-campaign-v3"))
+        val html = File("src/main/resources/static/index.html").readText()
+        assertTrue(html.contains("Eclipse Nocturna · Conquista Solar"))
+        assertTrue(html.contains("CONTRATOS DE CAMPAÑA"))
     }
 
     @Test
