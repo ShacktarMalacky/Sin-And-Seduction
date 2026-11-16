@@ -13,6 +13,19 @@ class CampaignAssetsTest {
         assertTrue(js.contains("new THREE.WebGLRenderer"))
         assertTrue(js.contains("requestAnimationFrame(animate)"))
         assertTrue(js.contains("clock.getDelta()"))
+        assertTrue(js.contains("function makePlanetTexture(data,index)"))
+        assertTrue(js.contains("function addAtmosphere(mesh,color,size)"))
+        assertTrue(js.contains("const asteroidBelt=new THREE.Points"))
+        assertTrue(js.contains("const sunHalo=new THREE.Mesh"))
+        assertTrue(js.contains("const sunCorona=new THREE.Mesh"))
+        assertTrue(js.contains("const engineFlames=[]"))
+        assertTrue(js.contains("cloudsTexture"))
+        assertTrue(js.contains("p.id==='uranus'"))
+        assertTrue(js.contains("new THREE.TorusGeometry"))
+        val css = File("src/main/resources/static/game.css").readText()
+        assertTrue(css.contains("@keyframes nebula-drift"))
+        assertTrue(css.contains("@keyframes star-twinkle"))
+        assertTrue(css.contains("prefers-reduced-motion"))
     }
 
     @Test
