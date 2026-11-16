@@ -18,7 +18,7 @@ class CampaignAssetsTest {
         assertTrue(js.contains("const asteroidBelt=new THREE.Points"))
         assertTrue(js.contains("const sunHalo=new THREE.Mesh"))
         assertTrue(js.contains("const sunCorona=new THREE.Mesh"))
-        assertTrue(js.contains("const engineFlames=[]"))
+        assertTrue(js.contains("engineFlames=[],hull"))
         assertTrue(js.contains("cloudsTexture"))
         assertTrue(js.contains("p.id==='uranus'"))
         assertTrue(js.contains("new THREE.TorusGeometry"))
