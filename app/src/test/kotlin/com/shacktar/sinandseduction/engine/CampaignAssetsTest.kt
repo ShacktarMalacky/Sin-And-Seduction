@@ -56,7 +56,7 @@ class CampaignAssetsTest {
         assertTrue(js.contains("function renderCivilization(p,w)"))
         assertTrue(js.contains("function civilizationOutput(profile,population)"))
         assertTrue(js.contains("Refuerzo de frontera"))
-        assertTrue(js.contains("CIVILIZACIÓN · CONSEJO NPC"))
+        assertTrue(mapHtml.contains("CIVILIZACIÓN · CONSEJO NPC"))
         assertTrue(mapHtml.contains("id=\"civilization-panel\""))
         assertTrue(mapHtml.contains("id=\"civ-reasoning\""))
         assertTrue(css.contains(".civilization-panel"))
