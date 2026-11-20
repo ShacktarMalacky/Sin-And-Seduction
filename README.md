@@ -78,3 +78,11 @@ Eclipse Nocturna es el título visible de esta experiencia web. La interfaz util
 Controles: seleccionar planeta, reconocerlo, elegir operaciones, agotar energía y cerrar el ciclo; la velocidad, pausa, órbitas y progreso se guardan localmente.
 
 La versión web actual es una campaña individual que se ejecuta completamente en el navegador: la economía, defensas, ciclos y progreso se guardan en `localStorage`. No sincroniza acciones ni guardado con PostgreSQL y aún no constituye un MMORPG multijugador. Usa Three.js por CDN, por lo que requiere conexión para descargar esa librería.
+
+
+### Civilizaciones autónomas
+Cada mundo tiene población persistente, un líder y cuatro equipos NPC con especialidades distintas. Cada ciclo las civilizaciones producen créditos, comida, investigación e influencia; las aliadas contribuyen al tesoro compartido, mientras las rivales guardan recursos. Los consejos enemigos siguen reglas tácticas visibles: responden a fronteras reconocidas, refuerzan defensas con cargo a sus reservas y explican cada decisión en el panel del mundo. La campaña sigue guardada localmente en el navegador.
+
+
+### Civilizaciones, NPC y producción
+Cada mundo posee población persistente, un liderazgo propio y cuatro NPC con nombres y responsabilidades distintas (industria, ciencia, defensa y diplomacia). Las civilizaciones producen créditos, comida, investigación e influencia al cerrar cada ciclo; los mundos controlados entregan sus recursos a la campaña y acumulan recursos estratégicos compartidos. Los consejos rivales guardan sus reservas, eligen entre reforzar una frontera reconocida, priorizar suministros, investigar o consolidarse, y muestran el motivo de su decisión en el informe del planeta. Población, tesorerías, reservas y decisiones se guardan con la campaña local.
