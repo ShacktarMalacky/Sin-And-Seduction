@@ -87,6 +87,7 @@ class CampaignAssetsTest {
         val html = File("src/main/resources/static/index.html").readText()
         assertTrue(js.contains("function operation(action)"))
         assertTrue(js.contains("function nextCycle()"))
+        assertTrue(js.split("function upgrade(){").size == 2, "The ES module must declare upgrade only once")
         assertTrue(js.contains("function capture(p,w)"))
         assertTrue(js.contains("localStorage.setItem(SAVE_KEY"))
         assertTrue(js.contains("function repairShip()"))
