@@ -86,3 +86,7 @@ Cada mundo tiene población persistente, un líder y cuatro equipos NPC con espe
 
 ### Civilizaciones, NPC y producción
 Cada mundo posee población persistente, un liderazgo propio y cuatro NPC con nombres y responsabilidades distintas (industria, ciencia, defensa y diplomacia). Las civilizaciones producen créditos, comida, investigación e influencia al cerrar cada ciclo; los mundos controlados entregan sus recursos a la campaña y acumulan recursos estratégicos compartidos. Los consejos rivales guardan sus reservas, eligen entre reforzar una frontera reconocida, priorizar suministros, investigar o consolidarse, y muestran el motivo de su decisión en el informe del planeta. Población, tesorerías, reservas y decisiones se guardan con la campaña local.
+
+### Directivas civiles del comandante
+En mundos aliados, el comandante puede asignar una directiva de Equilibrio, Economía, Ciencia, Defensa o Diplomacia. Cada orden cambia permanentemente la distribución de especialistas del planeta: 18 puntos porcentuales pasan al área elegida y los otros equipos reducen su personal proporcionalmente. La industria, la investigación, la influencia y la capacidad de refuerzo usan el nuevo reparto; la decisión y composición se muestran en el informe del mundo y quedan guardadas por planeta.
+La directiva de Defensa también repara las defensas del planeta aliado cada ciclo; en mundos enemigos la seguridad dirige los refuerzos de frontera. El panel anticipa la protección por ciclo junto con los demás recursos.
